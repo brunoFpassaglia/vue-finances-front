@@ -4,11 +4,21 @@
       <v-flex xs12 sm6 md4 lg8 xl3>
         <v-card class="elevation-10">
           <v-toolbar color="primary" dark>
-            <v-toolbar-title>Login</v-toolbar-title>
+            <v-toolbar-title>{{ texts.toolbar }}</v-toolbar-title>
           </v-toolbar>
 
           <v-card-text>
             <v-form>
+              <v-text-field
+                v-model.trim="$v.user.name.$model"
+                :error-messages="nameErrors"
+                :success="!$v.user.name.$invalid"
+                name="name"
+                prepend-icon="mdi-account-box"
+                label="Nome"
+                type="text"
+                v-if="!isLogin"
+              ></v-text-field>
               <v-text-field
                 v-model.trim="$v.user.email.$model"
                 :error-messages="emailErrors"
@@ -29,7 +39,7 @@
               ></v-text-field>
             </v-form>
 
-            <v-btn block depressed @click="log">Criar Conta</v-btn>
+            <v-btn block depressed @click="isLogin = !isLogin">{{ texts.button }}</v-btn>
           </v-card-text>
 
           <v-card-actions>
@@ -49,24 +59,50 @@ export default {
   data () {
     return {
       user: {
+        name: '',
         email: '',
         password: ''
-      }
+      },
+      isLogin: true
     }
   },
-  validations: {
-    user: {
-      email: {
-        required,
-        email
-      },
-      password: {
-        required,
-        minLength: minLength(6)
+  validations () {
+    const validations = {
+      user: {
+        email: {
+          required,
+          email
+        },
+        password: {
+          required,
+          minLength: minLength(6)
+        }
+      }
+    }
+    if (this.isLogin) { return validations }
+    return {
+      user: {
+        ...validations.user,
+        name: {
+          required,
+          minLength: minLength(3)
+        }
       }
     }
   },
   computed: {
+    texts () {
+      return this.isLogin ? { toolbar: 'Entrar', button: 'Criar conta' } : { toolbar: 'Cadastrar', button: 'Entrar' }
+    },
+    nameErrors () {
+      const errors = []
+      const name = this.$v.user.name
+      if (!name.$dirty) {
+        return errors
+      }
+      !name.minLength && errors.push('Seu nome deve ter no minimo 3 caracteres')
+      return errors
+    },
     emailErrors () {
       const errors = []
       const email = this.$v.user.email
