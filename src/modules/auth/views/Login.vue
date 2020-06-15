@@ -35,7 +35,7 @@
                 name="password"
                 label="Senha"
                 type="password"
-                counter="6"
+                counter="5"
               ></v-text-field>
             </v-form>
 
@@ -54,6 +54,7 @@
 
 <script>
 import { required, email, minLength } from 'vuelidate/lib/validators'
+import AuthService from './../services/auth-services'
 export default {
   name: 'Login',
   data () {
@@ -75,7 +76,7 @@ export default {
         },
         password: {
           required,
-          minLength: minLength(6)
+          minLength: minLength(5)
         }
       }
     }
@@ -125,11 +126,9 @@ export default {
     }
   },
   methods: {
-    log () {
-      console.log('Vuelidate:', this.$v)
-    },
-    submit () {
-      console.log('submitado', this.user)
+    async submit () {
+      const authData = this.isLogin ? await AuthService.login(this.user) : await AuthService.signup(this.user)
+      console.log('AuthData:', authData)
     }
   }
 }
