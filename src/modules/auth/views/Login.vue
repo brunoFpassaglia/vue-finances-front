@@ -142,8 +142,8 @@ export default {
       this.isLoading = true
       // if isLogin is active, calls login mutation, else calls signup
       try {
-        const authData = this.isLogin ? await AuthService.login(this.user) : await AuthService.signup(this.user)
-        console.log('AuthData:', authData)
+        this.isLogin ? await AuthService.login(this.user) : await AuthService.signup(this.user)
+        this.$router.push(this.$route.query.redirect || '/dashboard')
       } catch (error) {
         this.error = formatError(error.message)
         this.showSnackBar = true
