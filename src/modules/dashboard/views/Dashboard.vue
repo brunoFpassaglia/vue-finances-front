@@ -1,9 +1,13 @@
 <template>
-  <div>
-    <h1>Bem vindo ao dashboard</h1>
-  </div>
+  <app-layout/>
 </template>
 
 <script>
-export default {}
+import AppLayout from '../components/AppLayout'
+export default {
+  name: 'Dashboard',
+  components: {
+    AppLayout
+  }
+}
 </script>
