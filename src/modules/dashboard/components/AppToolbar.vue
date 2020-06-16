@@ -1,8 +1,8 @@
 <template>
-  <v-toolbar app fixed color="primary">
-    <v-icon @click.stop="$emit('hide', !show)">menu</v-icon>
+  <v-app-bar app fixed color="primary">
+    <v-icon @click.stop="$emit('hide', !showMenu)">menu</v-icon>
     <v-toolbar-title>Dashboard</v-toolbar-title>
-  </v-toolbar>
+  </v-app-bar>
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default {
     showMenu: Boolean
   },
   model: {
-    prop: 'show',
+    prop: 'showModel',
     event: 'hide'
   }
 }
