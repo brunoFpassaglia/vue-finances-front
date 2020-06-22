@@ -1,3 +1,4 @@
+import financesRoutes from '../modules/finances/router'
 const Dashboard = () => import('../views/Dashboard')
 
 export default [{
@@ -5,5 +6,8 @@ export default [{
   component: Dashboard,
   meta: {
     requiresAuth: true
-  }
+  },
+  children: [
+    ...financesRoutes
+  ]
 }]
