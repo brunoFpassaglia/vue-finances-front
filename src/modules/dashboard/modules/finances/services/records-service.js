@@ -1,4 +1,4 @@
-import { apollo } from '@/plugins/apollo'
+import apollo from '../../../../../plugins/apollo'
 
 import RecordsQuery from '../graphql/Records.gql'
 

@@ -1,15 +1,15 @@
 <template>
   <v-list-item>
-    <v-icon>
+    <v-icon :class="amountColor(record.amount)">
       {{ recordIcon(record.type) }}
     </v-icon>
     <v-list-item-content>
-      <v-list-item-title>
+      <v-list-item-title :class="amountColor(record.amount)">
         {{ record.description }}
       </v-list-item-title>
-      <v-list-item-sub-title>
+      <v-list-item-subtitle>
         {{ record.category.description }} | {{ record.account.description }}
-      </v-list-item-sub-title>
+      </v-list-item-subtitle>
     </v-list-item-content>
 
     <v-list-item-action>
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     amountColor (amount) {
-      return amount < 0 ? 'error-text text--lighten-1' : 'primary--text text--lighten-1'
+      return amount < 0 ? 'error--text text--lighten-1' : 'primary--text text--lighten-1'
     },
     recordIcon (type) {
       return type === 'CREDIT' ? 'arrow_upward' : 'arrow_downward'
