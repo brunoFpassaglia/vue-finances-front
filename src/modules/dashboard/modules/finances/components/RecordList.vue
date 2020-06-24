@@ -5,7 +5,18 @@
       @month="changeMonth"
     ></ToolbarByMonth>
     <v-card>
-      <v-list>
+      <v-card-text
+        class="text-center"
+        v-if="mappedRecordsLenth === 0"
+      >
+        <v-icon
+          size="100"
+          color="grey"
+        >assignment</v-icon>
+        <p>Nenhum lancamneto no periodo</p>
+
+      </v-card-text>
+      <v-list v-else>
         <template v-for="(records, date, index) in mappedRecords">
           <v-subheader :key="date">{{ date }}</v-subheader>
           <record-list-item
@@ -54,6 +65,9 @@ export default {
     },
     totalAmount () {
       return this.records.reduce((sum, record) => sum + record.amount, 0)
+    },
+    mappedRecordsLenth () {
+      return Object.keys(this.mappedRecords).length
     }
   },
   methods: {
