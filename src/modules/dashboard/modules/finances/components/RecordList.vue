@@ -1,8 +1,10 @@
 <template>
   <div>
+    <TotalBalance class="mb-2"></TotalBalance>
     <ToolbarByMonth
       format="MM-YYYY"
       @month="changeMonth"
+      :color="toolbarColor"
     ></ToolbarByMonth>
     <v-card>
       <v-card-text
@@ -41,6 +43,7 @@
 </template>
 
 <script>
+import TotalBalance from './TotalBalance.vue'
 import ToolbarByMonth from './ToolbarByMonth.vue'
 import moment from 'moment'
 import { groupBy } from '@/utils'
@@ -50,7 +53,8 @@ export default {
   name: 'RecordList',
   components: {
     RecordListItem,
-    ToolbarByMonth
+    ToolbarByMonth,
+    TotalBalance
   },
   data () {
     return {
@@ -68,6 +72,10 @@ export default {
     },
     mappedRecordsLenth () {
       return Object.keys(this.mappedRecords).length
+    },
+
+    toolbarColor () {
+      return this.totalAmount <= 0 ? 'error' : 'primary'
     }
   },
   methods: {

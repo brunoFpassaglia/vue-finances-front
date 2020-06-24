@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar color="primary">
+  <v-toolbar :color="color">
     <v-layout align-center>
       <v-flex xs1>
         <div class="text-left">
@@ -33,7 +33,8 @@ export default {
   props: {
     format: {
       type: String
-    }
+    },
+    color: String
   },
   data () {
     return {

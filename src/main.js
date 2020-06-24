@@ -4,6 +4,7 @@ import router from './router/index.js'
 import vuelidate from './plugins/vuelidate'
 import store from './store'
 import vuetify from './plugins/vuetify'
+import moment from './plugins/moment'
 
 Vue.config.productionTip = false
 Vue.config.errorHandler = function (err, vm, info) {
@@ -24,5 +25,6 @@ new Vue({
   vuelidate,
   store,
   vuetify,
+  moment,
   render: h => h(App)
 }).$mount('#app')
