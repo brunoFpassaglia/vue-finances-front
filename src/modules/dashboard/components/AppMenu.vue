@@ -79,12 +79,14 @@ export default {
       {
         title: 'Novo lancamento (credito)',
         icon: 'note_add',
-        url: '/dashboard/records/add?type=credit'
+        url: '/dashboard/records/add?type=credit',
+        exact: true
       },
       {
         title: 'Novo lancamento (debito)',
         icon: 'remove_circle',
-        url: '/dashboard/records/add?type=debit'
+        url: '/dashboard/records/add?type=debit',
+        exact: true
       }],
       mini: false,
       user: {}

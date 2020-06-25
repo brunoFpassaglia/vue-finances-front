@@ -11,6 +11,7 @@ export default [
   },
   {
     path: 'records/add',
+    name: 'addRecords',
     component: RecordsAdd,
     meta: {
       requiresAtuth: true

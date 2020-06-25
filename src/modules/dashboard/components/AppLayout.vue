@@ -10,17 +10,20 @@
         </v-flex>
       </v-layout>
     </v-container>
+    <AppFloatingButton></AppFloatingButton>
   </div>
 </template>
 
 <script>
+import AppFloatingButton from './AppFloatingButton.vue'
 import AppToolbar from './AppToolbar'
 import AppMenu from './AppMenu'
 export default {
   name: 'AppLayout',
   components: {
     AppToolbar,
-    AppMenu
+    AppMenu,
+    AppFloatingButton
   },
   data () {
     return {
