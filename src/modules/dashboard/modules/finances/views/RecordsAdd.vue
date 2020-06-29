@@ -26,11 +26,17 @@
                   label="account"
                   name="Conta"
                   prepend-icon="account_balance"
+                  :items="accounts"
+                  item-text="description"
+                  item-value="id"
                 ></v-select>
                 <v-select
                   label="category"
                   name="Categoria"
                   prepend-icon="class"
+                  :items="categories"
+                  item-text="description"
+                  item-value="id"
                 ></v-select>
 
                 <v-text-field
@@ -65,11 +71,15 @@
 import { mapActions } from 'vuex'
 import moment from 'moment'
 import { decimal, minLength, required } from 'vuelidate/lib/validators'
+import AccountsService from '../services/accounts-service'
+import CategoriesService from '../services/category-service'
 
 export default {
   name: 'RecordsAdd',
   data () {
     return {
+      accounts: [],
+      categories: [],
       record: {
         type: this.$route.query.type,
         amount: 0,
@@ -117,13 +127,16 @@ export default {
       this.setTitle({ title })
     }
   },
-  created () {
+  async created () {
     this.changeTitle(this.$route.query.type)
+    this.accounts = await AccountsService.accounts()
+    this.categories = await CategoriesService.categories({ operation: this.$route.query.type })
   },
-  beforeRouteUpdate (to, from, next) {
+  async beforeRouteUpdate (to, from, next) {
     const { type } = to.query
     this.changeTitle(type)
     this.record.type = type
+    this.categories = await CategoriesService.categories({ operation: type })
     next()
   }
 }
