@@ -11,7 +11,7 @@
           md4
           lg4
         >
-          <p>amount</p>
+        <NumericDisplay :color="color" v-model="$v.record.amount.$model"></NumericDisplay>
         </v-flex>
         <v-flex
           xs12
@@ -124,6 +124,7 @@
             fab
             class="mt-4"
             @click="submit"
+            :disabled="$v.$invalid"
           >
             <v-icon>check</v-icon>
           </v-btn>
@@ -135,6 +136,7 @@
 </template>
 
 <script>
+import NumericDisplay from '../components/NumericDisplay.vue'
 import { mapActions } from 'vuex'
 import moment from 'moment'
 import { decimal, minLength, required } from 'vuelidate/lib/validators'
@@ -142,6 +144,9 @@ import AccountsService from '../services/accounts-service'
 import CategoriesService from '../services/category-service'
 
 export default {
+  components: {
+    NumericDisplay
+  },
   name: 'RecordsAdd',
   data () {
     return {
@@ -212,6 +217,10 @@ export default {
     },
     submit () {
       return 0
+    },
+    cancelDateDialog () {
+      this.showDateDialog = false
+      this.dateDialogValue = this.record.date
     }
   },
   async created () {
@@ -223,6 +232,7 @@ export default {
     const { type } = to.query
     this.changeTitle(type)
     this.record.type = type
+    this.record.categoryId = ''
     this.categories = await CategoriesService.categories({ operation: type })
     next()
   }
