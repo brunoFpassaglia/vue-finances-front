@@ -3,6 +3,7 @@ import moment from 'moment'
 
 import RecordsQuery from '../graphql/Records.gql'
 import TotalBalanceQuery from '../graphql/TotalBalance.gql'
+import RecordCreateMutation from '../graphql/RecordCreate.gql'
 
 const records = async variables => {
   const response = await apollo.query({
@@ -10,6 +11,14 @@ const records = async variables => {
     variables
   })
   return response.data.records
+}
+
+const createRecord = async variables => {
+  const response = await apollo.mutate({
+    mutation: RecordCreateMutation,
+    variables
+  })
+  return response.data.createRecord
 }
 
 const totalBalance = async () => {
@@ -23,5 +32,6 @@ const totalBalance = async () => {
 }
 export default {
   records,
+  createRecord,
   totalBalance
 }

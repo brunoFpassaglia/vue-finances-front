@@ -28,9 +28,7 @@
                   :return-value.sync="record.date"
                   v-model="showDateDialog"
                   persistent
-                  lazy
                   width="290px"
-                  full-width
                 >
 
                   <template v-slot:activator="{ on }">
@@ -53,12 +51,10 @@
                   >
                     <v-spacer></v-spacer>
                     <v-btn
-                      flat
                       :color="color"
                       @click="cancelDateDialog"
                     >Cancelar</v-btn>
                     <v-btn
-                      flat
                       :color="color"
                       @click="$refs.dateDialog.save(dateDialogValue)"
                     >Ok</v-btn>
@@ -142,6 +138,7 @@ import moment from 'moment'
 import { decimal, minLength, required } from 'vuelidate/lib/validators'
 import AccountsService from '../services/accounts-service'
 import CategoriesService from '../services/category-service'
+import RecordsService from '../services/records-service'
 
 export default {
   components: {
@@ -153,7 +150,7 @@ export default {
       accounts: [],
       categories: [],
       record: {
-        type: this.$route.query.type,
+        type: this.$route.query.type.toUpperCase(),
         amount: 0,
         date: moment().format('YYYY-MM-DD'),
         accountId: '',
@@ -172,9 +169,9 @@ export default {
     },
     color () {
       switch (this.record.type) {
-        case 'credit':
+        case 'CREDIT':
           return 'primary'
-        case 'debit':
+        case 'DEBIT':
           return 'error'
         default:
           return 'blue'
@@ -215,8 +212,14 @@ export default {
       }
       this.setTitle({ title })
     },
-    submit () {
-      return 0
+    async submit () {
+      try {
+        const record = await RecordsService.createRecord(this.record)
+        console.log('record criado', record)
+        this.$router.push('/dashboard/records')
+      } catch (e) {
+        console.log('ERror creating REcord', e)
+      }
     },
     cancelDateDialog () {
       this.showDateDialog = false
