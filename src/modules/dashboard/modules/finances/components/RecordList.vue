@@ -49,6 +49,8 @@ import moment from 'moment'
 import { groupBy } from '@/utils'
 import RecordListItem from './RecordListItem.vue'
 import RecordsService from '../services/records-service'
+import { Subject } from 'rxjs'
+import { mergeMap } from 'rxjs/operators'
 export default {
   name: 'RecordList',
   components: {
@@ -58,7 +60,8 @@ export default {
   },
   data () {
     return {
-      records: []
+      records: [],
+      monthSubject$: new Subject()
     }
   },
   computed: {
@@ -80,12 +83,16 @@ export default {
   },
   methods: {
     changeMonth (month) {
-      console.log('Month: ', month)
-      this.setRecords(month)
+      this.monthSubject$.next({ month })
     },
-    async setRecords (month) {
-      this.records = await RecordsService.records({ month })
+    setRecords (month) {
+      this.monthSubject$.pipe(
+        mergeMap(variables => RecordsService.records(variables))
+      ).subscribe(records => (this.records = records))
     }
+  },
+  created () {
+    this.setRecords()
   }
 }
 </script>

@@ -23,7 +23,7 @@
       small
       color="error"
       title="Nova despesa"
-      @click="addRecord('debit')"
+      @click="addRecord('DEBIT')"
     >
       <v-icon>remove</v-icon>
     </v-btn>
@@ -32,7 +32,7 @@
       small
       color="primary"
       title="Nova receita"
-      @click="addRecord('credit')"
+      @click="addRecord('CREDIT')"
     >
       <v-icon>add</v-icon>
     </v-btn>
