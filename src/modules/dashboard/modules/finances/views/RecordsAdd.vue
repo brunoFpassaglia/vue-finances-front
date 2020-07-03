@@ -11,7 +11,10 @@
           md4
           lg4
         >
-        <NumericDisplay :color="color" v-model="$v.record.amount.$model"></NumericDisplay>
+          <NumericDisplay
+            :color="color"
+            v-model="$v.record.amount.$model"
+          ></NumericDisplay>
         </v-flex>
         <v-flex
           xs12
@@ -70,7 +73,23 @@
                   item-text="description"
                   item-value="id"
                   v-model="$v.record.accountId.$model"
-                ></v-select>
+                >
+                  <v-list-item
+                    slot="append-item"
+                    ripple
+                    @click="add('account')"
+                  >
+                    <v-list-item-action>
+                      <v-icon>add</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-title>Conta</v-list-item-title>
+
+                  </v-list-item>
+                  <v-divider
+                    slot="prepend-item"
+                    class="mt-2"
+                  ></v-divider>
+                </v-select>
                 <v-select
                   label="category"
                   name="Categoria"
@@ -79,7 +98,25 @@
                   item-text="description"
                   item-value="id"
                   v-model="$v.record.categoryId.$model"
-                ></v-select>
+                >
+
+                  <v-list-item
+                    slot="append-item"
+                    ripple
+                    @click="add('category')"
+                  >
+                    <v-list-item-action>
+                      <v-icon>add</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-title>Categoria</v-list-item-title>
+
+                  </v-list-item>
+                  <v-divider
+                    slot="prepend-item"
+                    class="mt-2"
+                  ></v-divider>
+
+                </v-select>
 
                 <v-text-field
                   name="description"
@@ -124,6 +161,13 @@
           >
             <v-icon>check</v-icon>
           </v-btn>
+
+          <v-dialog
+            v-model="showAccountCategoryDialog"
+            max-width="350px"
+          >
+            <AccountCategoryAdd v-if="showAccountCategoryDialog" :entity="entity" @close="showAccountCategoryDialog = false"/>
+          </v-dialog>
         </v-flex>
 
       </v-layout>
@@ -133,6 +177,7 @@
 
 <script>
 import NumericDisplay from '../components/NumericDisplay.vue'
+import AccountCategoryAdd from '../components/AccountCategoryAdd.vue'
 import { mapActions } from 'vuex'
 import moment from 'moment'
 import { decimal, minLength, required } from 'vuelidate/lib/validators'
@@ -142,7 +187,8 @@ import RecordsService from '../services/records-service'
 
 export default {
   components: {
-    NumericDisplay
+    NumericDisplay,
+    AccountCategoryAdd
   },
   name: 'RecordsAdd',
   data () {
@@ -160,7 +206,9 @@ export default {
         note: ''
       },
       showDateDialog: false,
-      dateDialogValue: moment().format('YYYY-MM-DD')
+      dateDialogValue: moment().format('YYYY-MM-DD'),
+      showAccountCategoryDialog: false,
+      entity: ''
     }
   },
   computed: {
@@ -197,6 +245,10 @@ export default {
     ...mapActions([
       'setTitle' // also supports payload `this.nameOfAction(amount)`
     ]),
+    add (entity) {
+      this.showAccountCategoryDialog = true
+      this.entity = entity
+    },
     changeTitle (recordType) {
       let title
       switch (recordType) {
