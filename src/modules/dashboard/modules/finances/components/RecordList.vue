@@ -6,6 +6,7 @@
       @month="changeMonth"
       :color="toolbarColor"
     ></ToolbarByMonth>
+    <RecordsFilter></RecordsFilter>
     <v-card>
       <v-card-text
         class="text-center"
@@ -43,6 +44,7 @@
 </template>
 
 <script>
+import RecordsFilter from './RecordsFilter.vue'
 import TotalBalance from './TotalBalance.vue'
 import ToolbarByMonth from './ToolbarByMonth.vue'
 import moment from 'moment'
@@ -56,7 +58,8 @@ export default {
   components: {
     RecordListItem,
     ToolbarByMonth,
-    TotalBalance
+    TotalBalance,
+    RecordsFilter
   },
   data () {
     return {
