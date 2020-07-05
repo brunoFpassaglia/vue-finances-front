@@ -166,7 +166,12 @@
             v-model="showAccountCategoryDialog"
             max-width="350px"
           >
-            <AccountCategoryAdd v-if="showAccountCategoryDialog" :entity="entity" @close="showAccountCategoryDialog = false"/>
+            <AccountCategoryAdd
+              v-if="showAccountCategoryDialog"
+              :entity="entity"
+              @close="showAccountCategoryDialog = false"
+              @saved="accountCategorySaved"
+            />
           </v-dialog>
         </v-flex>
 
@@ -184,6 +189,8 @@ import { decimal, minLength, required } from 'vuelidate/lib/validators'
 import AccountsService from '../services/accounts-service'
 import CategoriesService from '../services/category-service'
 import RecordsService from '../services/records-service'
+import { Subject } from 'rxjs'
+import { mergeMap, distinctUntilChanged } from 'rxjs/operators'
 
 export default {
   components: {
@@ -193,6 +200,7 @@ export default {
   name: 'RecordsAdd',
   data () {
     return {
+      operationSubject$: new Subject(),
       accounts: [],
       categories: [],
       record: {
@@ -276,19 +284,24 @@ export default {
     cancelDateDialog () {
       this.showDateDialog = false
       this.dateDialogValue = this.record.date
+    },
+    accountCategorySaved (item) {
+      this.showAccountCategoryDialog = false
+      this.record[`${this.entity}Id`] = item.id
     }
   },
   async created () {
     this.changeTitle(this.$route.query.type)
-    this.accounts = await AccountsService.accounts()
-    this.categories = await CategoriesService.categories({ operation: this.$route.query.type })
+    AccountsService.accounts().subscribe(accounts => (this.accounts = accounts))
+    this.operationSubject$.pipe(distinctUntilChanged(), mergeMap(operation => CategoriesService.categories({ operation }))).subscribe(categories => (this.categories = categories))
+    this.operationSubject$.next(this.$route.query.type)
   },
   async beforeRouteUpdate (to, from, next) {
     const { type } = to.query
     this.changeTitle(type)
     this.record.type = type
     this.record.categoryId = ''
-    this.categories = await CategoriesService.categories({ operation: type })
+    this.operationSubject$.next(type)
     next()
   }
 }
