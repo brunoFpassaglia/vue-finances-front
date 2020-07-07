@@ -5,7 +5,7 @@ export default [
     path: 'records',
     component: RecordsHome,
     meta: {
-      requiresAtuth: true
+      requiresAuth: true
     },
     alias: ['home', '']
   },
@@ -14,7 +14,7 @@ export default [
     name: 'addRecords',
     component: RecordsAdd,
     meta: {
-      requiresAtuth: true
+      requiresAuth: true
     }
   }
 
