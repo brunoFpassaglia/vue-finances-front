@@ -4,7 +4,7 @@ import apollo from '@/plugins/apollo'
 import CategoriesQuery from './../graphql/Categories.gql'
 import CategoryCreate from './../graphql/CategoryCreate.gql'
 
-const categories = ({ operation }) => {
+const categories = ({ operation } = {}) => {
   const queryRef = apollo.watchQuery({
     query: CategoriesQuery,
     variables: { operation: operation ? operation.toUpperCase() : operation }

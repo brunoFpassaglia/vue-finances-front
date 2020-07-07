@@ -5,8 +5,10 @@
       format="MM-YYYY"
       @month="changeMonth"
       :color="toolbarColor"
-    ></ToolbarByMonth>
-    <RecordsFilter></RecordsFilter>
+      :showSlot="true"
+    >
+      <RecordsFilter></RecordsFilter>
+    </ToolbarByMonth>
     <v-card>
       <v-card-text
         class="text-center"
