@@ -84,6 +84,12 @@ export default {
         icon: 'remove_circle',
         url: '/dashboard/records/add?type=debit',
         exact: true
+      },
+      {
+        title: 'Reports',
+        icon: 'assessment',
+        url: '/dashboard/reports',
+        exact: true
       }],
       mini: false,
       user: {}

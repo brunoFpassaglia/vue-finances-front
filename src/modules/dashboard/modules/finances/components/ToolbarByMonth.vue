@@ -3,22 +3,38 @@
     <v-layout align-center>
       <v-flex xs1>
         <div class="text-left">
-          <v-btn icon @click="decrement">
+          <v-btn
+            icon
+            @click="decrement"
+          >
             <v-icon>
               chevron_left
             </v-icon>
           </v-btn>
         </div>
       </v-flex>
-      <v-flex xs8 offset-xs1>
+      <v-flex
+        xs8
+        offset-xs1
+      >
         <v-toolbar-title class="text-center"><span>{{ currentMonth }}</span></v-toolbar-title>
       </v-flex>
-      <v-flex xs1 text-right v-if="showSlot">
-        <slot/>
+      <v-flex
+        xs1
+        text-right
+        v-if="showSlot"
+      >
+        <slot />
       </v-flex>
-      <v-flex xs1 :class="arrowRightClass">
+      <v-flex
+        xs1
+        :class="arrowRightClass"
+      >
         <div class="text-right">
-          <v-btn icon @click="increment">
+          <v-btn
+            icon
+            @click="increment"
+          >
             <v-icon>
               chevron_right
             </v-icon>
@@ -41,11 +57,12 @@ export default {
     showSlot: {
       type: Boolean,
       default: false
-    }
+    },
+    month: String
   },
   data () {
     return {
-      date: moment()
+      date: undefined
     }
   },
   computed: {
@@ -67,9 +84,13 @@ export default {
     increment () {
       this.date = this.date.clone().add(1, 'month')
       this.emit()
+    },
+    setCurrentMonth () {
+      this.date = this.month ? moment(this.month, this.format) : moment()
     }
   },
   created () {
+    this.setCurrentMonth()
     this.emit()
   }
 

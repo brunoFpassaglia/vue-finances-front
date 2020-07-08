@@ -6,6 +6,7 @@
       @month="changeMonth"
       :color="toolbarColor"
       :showSlot="true"
+      :month="month"
     >
       <RecordsFilter @filter="filter"></RecordsFilter>
     </ToolbarByMonth>
